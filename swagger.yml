@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  description: |-
+    A swagger doc for these three endpoints:
+    `GET /v1/weather` —should mock OpenWeather’s 
+    `GET /data/2.5/weather` endpoint
+    `GET /v1/hello`  —should return a greeting of your choice.
+  version: 1.0.0
+  title: Assignment 4
+  contact:
+    email: nallagop@oregonstate.edu
+  license:
+    name: myLicense
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: Pavan
+    description: about me
+    externalDocs:
+      description: Find out more
+      url: https://github.com/pavan3008
+paths:
+  /weather:
+    get:
+      tags:
+        - user
+      summary: Current Temperature
+      description: Know temperature anywhere
+      operationId: getWeather
+      parameters:
+        - name: Name
+          in: query
+          description: Enter the name of City
+          required: true
+          schema:
+            type: string
+        - name: API Key
+          in: query
+          description: Enter your API key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+        "401":
+          description: Invalid API Key
+  /hello:
+    get:
+      tags:
+        - user
+      summary: return a random greeting
+      description: ""
+      operationId: get_hello
+      responses:
+        "200":
+          description: You're welcome
+        "400":
+          description: Bad request
+  /auth:
+    post:
+      tags:
+        - user
+      summary: Get your token
+      description: ""
+      operationId: userlogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Give your username and password
+        required: true
+      responses:
+        "200":
+          description: Token successfully generated
+        "400":
+          description: Bad request
+        "401":
+          description: You're not authorized
+servers:
+  - url: http://34.228.7.221:3000/v1
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          description: Get Token
+      xml:
+        name: User
